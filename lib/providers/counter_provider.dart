@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+// Codigo consulta Provider
 import 'package:flutter/cupertino.dart';
 
 class CounterState {
