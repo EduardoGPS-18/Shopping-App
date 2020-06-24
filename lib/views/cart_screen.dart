@@ -1,4 +1,5 @@
 import 'package:ShoppingApp/providers/cart.dart';
+import 'package:ShoppingApp/providers/orders.dart';
 import 'package:ShoppingApp/widgets/cart_buy_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +31,7 @@ class CartScreen extends StatelessWidget {
                   ),
                   Chip(
                     label: Text(
-                      "R\$ ${cart.totalAmount}",
+                      "R\$ ${cart.totalAmount.toStringAsFixed(2)}",
                       style: TextStyle(
                         color:
                             Theme.of(context).primaryTextTheme.headline6.color,
@@ -40,9 +41,12 @@ class CartScreen extends StatelessWidget {
                   ),
                   Spacer(),
                   FlatButton(
-                    onPressed: () => 0,
                     child: Text("COMPRAR"),
                     textColor: Theme.of(context).primaryColor,
+                    onPressed: () {
+                      Provider.of<Orders>(context, listen: false).addOrder(cart);
+                      cart.clear();
+                    },
                   ),
                 ],
               ),
