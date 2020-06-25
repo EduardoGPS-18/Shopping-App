@@ -26,8 +26,34 @@ class CartBuyItem extends StatelessWidget {
         ),
       ),
       direction: DismissDirection.endToStart,
+      confirmDismiss: (_) {
+        return showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: Text("Tem certeza?"),
+            content: Text("Quer remover o item do carrinho?"),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop(true);
+                },
+                textColor: Theme.of(context).primaryColor,
+                child: Text("Sim"),
+              ),
+              FlatButton(
+                onPressed: () {
+                  Navigator.of(ctx).pop(false);
+                },
+                textColor: Theme.of(context).primaryColor,
+                child: Text("Não"),
+              ),
+            ],
+          ),
+        );
+      },
       onDismissed: (_) {
-        Provider.of<Cart>(context, listen: false).removeItem(cartItem.productID);
+        Provider.of<Cart>(context, listen: false)
+            .removeItem(cartItem.productID);
       },
       child: Card(
         margin: EdgeInsets.symmetric(
@@ -38,6 +64,7 @@ class CartBuyItem extends StatelessWidget {
           padding: EdgeInsets.all(8),
           child: ListTile(
             leading: CircleAvatar(
+              backgroundColor: Theme.of(context).primaryColor,
               child: Padding(
                 padding: EdgeInsets.all(2),
                 child: FittedBox(

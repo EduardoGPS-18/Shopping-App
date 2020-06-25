@@ -1,13 +1,15 @@
 import 'package:ShoppingApp/providers/cart.dart';
-import 'package:ShoppingApp/providers/counter_provider.dart';
 import 'package:ShoppingApp/providers/orders.dart';
 import 'package:ShoppingApp/utils/app-routes.dart';
 import 'package:ShoppingApp/views/cart_screen.dart';
 import 'package:ShoppingApp/views/orders_screen.dart';
 import 'package:ShoppingApp/views/product_detail_screen.dart';
 import 'package:ShoppingApp/views/products_overview_screen.dart';
+import 'package:ShoppingApp/views/product_form_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import './views/products_screen.dart';
 
 import 'providers/products.dart';
 
@@ -53,7 +55,8 @@ class MyHomePage extends StatelessWidget {
           AppRoutes.PRODUCT_DETAIL: (ctx) => ProductDetailScreen(),
           AppRoutes.CART: (ctx) => CartScreen(),
           AppRoutes.ORDERS: (ctx) => OrdersScreen(),
-          
+          AppRoutes.PRODUCTS: (ctx) => ProductsScreen(),
+          AppRoutes.PRODUCT_FORM: (ctx) => ProductFormScreen(),
         },
       ),
     );
