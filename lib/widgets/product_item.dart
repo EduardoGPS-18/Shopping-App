@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:ShoppingApp/providers/product.dart';
 import 'package:ShoppingApp/providers/products.dart';
 import 'package:ShoppingApp/utils/app-routes.dart';
@@ -11,6 +13,7 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scaffold = Scaffold.of(context);
     return ListTile(
       leading: CircleAvatar(
         backgroundImage: NetworkImage(product.imageUrl),
@@ -40,21 +43,28 @@ class ProductItem extends StatelessWidget {
                     actions: <Widget>[
                       FlatButton(
                         onPressed: () {
-                          Provider.of<Products>(context, listen: false).deleteProduct(product);
-                          Navigator.of(ctx).pop();
+                          Navigator.of(ctx).pop(true);
                         },
                         child: Text("Sim"),
                       ),
                       FlatButton(
                         onPressed: () {
-                          Navigator.of(ctx).pop();
+                          Navigator.of(ctx).pop(false);
                         },
                         child: Text("Não"),
                       ),
                     ],
                   ),
-                );
-              },
+                ).then((value) async {
+                  try {
+                    await Provider.of<Products>(context, listen: false).deleteProduct(product);
+                  } on HttpException catch(err) {
+                    scaffold.showSnackBar(SnackBar(
+                      content: Text(err.toString()),
+                    ));
+                  }
+                });
+              }
             ),
           ],
         ),
