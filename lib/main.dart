@@ -1,6 +1,8 @@
+import 'package:ShoppingApp/providers/auth.dart';
 import 'package:ShoppingApp/providers/cart.dart';
 import 'package:ShoppingApp/providers/orders.dart';
 import 'package:ShoppingApp/utils/app-routes.dart';
+import 'package:ShoppingApp/views/auth_home_screen.dart';
 import 'package:ShoppingApp/views/cart_screen.dart';
 import 'package:ShoppingApp/views/orders_screen.dart';
 import 'package:ShoppingApp/views/product_detail_screen.dart';
@@ -10,6 +12,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import './views/products_screen.dart';
+
+import './views/auth_screen.dart';
 
 import 'providers/products.dart';
 
@@ -34,13 +38,26 @@ class MyHomePage extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
+          create: (ctx) => Auth(),
+        ),
+        ChangeNotifierProxyProvider<Auth, Products>(
           create: (ctx) => Products(),
+          update: (ctx, auth, previusProducts) => Products(
+            auth.token,
+            previusProducts.items,
+            auth.userId,
+          ),
         ),
         ChangeNotifierProvider(
           create: (ctx) => Cart(),
         ),
-        ChangeNotifierProvider(
+        ChangeNotifierProxyProvider<Auth, Orders>(
           create: (ctx) => Orders(),
+          update: (ctx, auth, previusOrders) => Orders(
+            auth.token,
+            previusOrders.items,
+            auth.userId,
+          ),
         ),
       ],
       child: MaterialApp(
@@ -50,8 +67,8 @@ class MyHomePage extends StatelessWidget {
           accentColor: Colors.deepOrange,
           fontFamily: 'Lato',
         ),
-        home: ProductOverViewScreen(),
         routes: {
+          AppRoutes.AUTH_HOME: (ctx) => AuthOrHomeScreen(),
           AppRoutes.PRODUCT_DETAIL: (ctx) => ProductDetailScreen(),
           AppRoutes.CART: (ctx) => CartScreen(),
           AppRoutes.ORDERS: (ctx) => OrdersScreen(),
