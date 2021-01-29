@@ -1,3 +1,3 @@
 # Shopping APP
-made in Flutter
+Flutter App
  
