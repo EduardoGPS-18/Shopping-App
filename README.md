@@ -1,2 +1,3 @@
-# AppFlutter for learning
- ShoppingApp
+# Shopping APP
+made in Flutter
+ 
